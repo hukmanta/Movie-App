@@ -26,19 +26,18 @@ interface MovieAPI {
 
     /***
      * @return [GetReviewResponse]
-     *@param parameters => hashMapOf("language" to "id","page" to 1)
      * @param id => movie_ID : Int
      * **/
     @GET("movie/{id}/reviews")
     @Throws(ConnectException::class)
-    suspend fun getUserReviewAsync(@Header("Authorization") accessToken: String = "Bearer ${BuildConfig.API_KEY}", @Path(value = "id", encoded = true) id: Int, @QueryMap(encoded = true) parameters: Map<String, Any>): GetReviewResponse
+    suspend fun getUserReviewAsync(@Header("Authorization") accessToken: String = "Bearer ${BuildConfig.API_KEY}", @Path("id") id: Int, @Query("language") language: String="id", @Query("page")page: Int=1): GetReviewResponse
 
 
     /***
      * @return [GetMovieDetailResponse]
      * @param id => movie_ID : Int
      * **/
-    @GET("genre/movie/{id}")
+    @GET("movie/{id}")
     @Throws(ConnectException::class)
-    suspend fun getMovieDetailAsync(@Header("Authorization") accessToken: String = "Bearer ${BuildConfig.API_KEY}", @Path(value = "id", encoded = true)id: Int, @Query("language") language: String="id"): GetMovieDetailResponse
+    suspend fun getMovieDetailAsync(@Header("Authorization") accessToken: String = "Bearer ${BuildConfig.API_KEY}", @Path("id")id: Int, @Query("language") language: String="id"): GetMovieDetailResponse
 }
