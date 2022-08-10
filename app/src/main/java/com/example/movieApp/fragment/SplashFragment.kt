@@ -43,12 +43,13 @@ class SplashFragment : Fragment() {
 
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         getGenreData()
         Log.d("GENRE_RESPONSE", _genreResponse.toString())
         if (_genreResponse != null){
-            binding.root.findNavController().navigate(R.id.action_SplashFragment_to_SecondFragment)
+            val action = SplashFragmentDirections.actionSplashFragmentToSecondFragment(_genreResponse!!)
+            binding.root.findNavController().navigate(action)
         }
     }
 
