@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.GenreFragment">
+    tools:context=".fragment.MovieByGenreFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/list_genre_label"
+            android:text="@string/list_movie_label"
             style="@style/MaterialAlertDialog.Material3.Body.Text"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -39,7 +39,7 @@
             android:visibility="invisible"
             tools:visibility="visible"
             tools:itemCount="2"
-            tools:listItem="@layout/view_holder_genre"
+            tools:listItem="@layout/view_holder_movie"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -67,6 +69,10 @@ class GenreFragment : Fragment(), RecyclerViewClickListener {
         Log.d("GENRE_FRAGMENT", _getGenreResponse.genreList.genres?.get(position).toString())
         getMovieData(_getGenreResponse.genreList.genres?.get(position)?.id!!)
         Log.d("GENRE_FRAGMENT", _getMovieByGenreResponse.toString())
+        if(_getMovieByGenreResponse != null){
+            val action = GenreFragmentDirections.actionGenreFragmentToMovieByGenreFragment(_getMovieByGenreResponse!!)
+            binding.root.findNavController().navigate(action)
+        }
     }
 
     private fun getMovieData(position: Int, page: Int = 1) = runBlocking {

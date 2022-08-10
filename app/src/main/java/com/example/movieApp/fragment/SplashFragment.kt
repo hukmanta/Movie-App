@@ -47,7 +47,7 @@ class SplashFragment : Fragment() {
         getGenreData()
         Log.d("GENRE_RESPONSE", _genreResponse.toString())
         if (_genreResponse != null){
-            val action = SplashFragmentDirections.actionSplashFragmentToSecondFragment(_genreResponse!!)
+            val action = SplashFragmentDirections.actionSplashFragmentToGenreFragment(_genreResponse!!)
             binding.root.findNavController().navigate(action)
         }
     }

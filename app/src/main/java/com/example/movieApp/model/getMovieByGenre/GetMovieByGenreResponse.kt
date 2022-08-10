@@ -2,6 +2,7 @@ package com.example.movieApp.model.getMovieByGenre
 
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class GetMovieByGenreResponse(
     @SerializedName("page")
@@ -12,4 +13,4 @@ data class GetMovieByGenreResponse(
     val totalPages: Int?, // 8425
     @SerializedName("total_results")
     val totalResults: Int? // 168487
-)
+): Serializable
