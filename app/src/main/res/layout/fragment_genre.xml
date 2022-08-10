@@ -11,10 +11,35 @@
         android:layout_height="match_parent"
         android:padding="16dp">
 
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/list_genre_label"
+            style="@style/MaterialAlertDialog.Material3.Body.Text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/genderRV"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:itemCount="5"
+            tools:listitem="@layout/view_holder_genre"
+            app:layout_constraintTop_toBottomOf="@+id/textView"/>
+
+        <ProgressBar
+            android:id="@+id/genderProgressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            tools:visibility="visible"
+            tools:itemCount="2"
+            tools:listItem="@layout/view_holder_genre"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

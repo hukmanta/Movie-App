@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import com.example.movieApp.R
 import com.example.movieApp.databinding.FragmentSplashBinding
 import com.example.movieApp.model.getGenre.GetGenreResponse
 import com.example.movieApp.service.RetrofitBuilder
