@@ -38,6 +38,7 @@ class MovieByGenreFragment : Fragment(), RecyclerViewClickListener {
     private lateinit var _recycleView: RecyclerView
     private lateinit var _adapter: MovieRecyclerViewAdapter
     private var currentPage = 1
+    private var isLoading = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,12 +55,13 @@ class MovieByGenreFragment : Fragment(), RecyclerViewClickListener {
         _recycleView = _binding.genderRV
         _recycleView.addOnScrollListener(object : PaginationScrollListener(
             layoutManager,
-            _getMovieByGenreResponse.movieList.totalPages ?: 1,
-            currentPage
         ) {
 
             override fun loadMoreItems() {
-                loadMoreData(_getMovieByGenreResponse.genreId.toInt(), ++currentPage)
+                if (!isLoading) loadMoreData(
+                    _getMovieByGenreResponse.genreId.toInt(),
+                    ++currentPage
+                )
             }
         })
         _recycleView.adapter = _adapter
@@ -91,6 +93,7 @@ class MovieByGenreFragment : Fragment(), RecyclerViewClickListener {
                 withContext(Dispatchers.Main) { _binding.root.findNavController().navigate(action) }
             }
         }
+        _binding.movieProgressBar.visibility = View.GONE
     }
 
     private fun getMovieDetail(id: Int) = runBlocking {
@@ -194,51 +197,57 @@ class MovieByGenreFragment : Fragment(), RecyclerViewClickListener {
     }
 
 
-    private fun loadMoreData(position: Int, page: Int = 1) = runBlocking {
-        try {
-            _binding.movieProgressBar.visibility = View.VISIBLE
-            val result = withContext(Dispatchers.Main) {
-                _movieAPI.getMovieByGenreAsync(
-                    with_genres = position,
-                    page = page
-                )
-            }
-            result.results?.let { list ->
-                list.forEach { element ->
-                    element?.let { it ->
-                        _adapter.data?.plus(it)
+    @OptIn(DelicateCoroutinesApi::class)
+    private fun loadMoreData(position: Int, page: Int = 1) = GlobalScope.launch(Dispatchers.IO) {
+        withContext(Dispatchers.Main) {
+            isLoading = true
+            val status = if(isLoading)View.VISIBLE else View.INVISIBLE
+            _binding.movieProgressBar.visibility = status
+            withContext(Dispatchers.IO) {
+                try {
+                    val result = _movieAPI.getMovieByGenreAsync(
+                        with_genres = position,
+                        page = page
+                    )
+
+                    result.results?.let { list ->
+                        list.forEach { element ->
+                            element?.let { it ->
+                                _adapter.data?.plus(it)
+                            }
+                        }
+                    }
+                } catch (e: HttpException) {
+                    if (e.code() != 500) {
+                        val body = e.response()!!.errorBody()
+                        val errorConverter = RetrofitBuilder.errorConverter
+                        val errorParser = errorConverter.convert(body!!)
+                        withContext(Dispatchers.Main) {
+                            showSnackBarLong(errorParser?.statusMessage ?: e.message())
+                            Log.e(
+                                activity?.javaClass?.simpleName,
+                                errorParser?.statusMessage ?: e.message()
+                            )
+                        }
+                    } else {
+                        serverError(e)
+                    }
+                } catch (e: TimeoutException) {
+                    withContext(Dispatchers.Main) {
+                        showSnackBarLong("Request Timeout")
+                    }
+                } catch (e: Exception) {
+                    withContext(Dispatchers.Main) {
+                        showSnackBarLong("Unknown Error")
+                        e.printStackTrace()
+                    }
+                } finally {
+                    withContext(Dispatchers.Main) {
+                        isLoading = false
+                        _binding.movieProgressBar.visibility = View.GONE
                     }
                 }
             }
-        } catch (e: HttpException) {
-            if (e.code() != 500) {
-                val body = e.response()!!.errorBody()
-                val errorConverter = RetrofitBuilder.errorConverter
-                val errorParser = withContext(Dispatchers.IO) {
-                    errorConverter.convert(body!!)
-                }
-                withContext(Dispatchers.Main) {
-                    showSnackBarLong(errorParser?.statusMessage ?: e.message())
-                    Log.e(
-                        activity?.javaClass?.simpleName,
-                        errorParser?.statusMessage ?: e.message()
-                    )
-
-                }
-            } else {
-                serverError(e)
-            }
-        } catch (e: TimeoutException) {
-            withContext(Dispatchers.Main) {
-                showSnackBarLong("Request Timeout")
-            }
-        } catch (e: Exception) {
-            withContext(Dispatchers.Main) {
-                showSnackBarLong("Unknown Error")
-                e.printStackTrace()
-            }
-        } finally {
-            _binding.movieProgressBar.visibility = View.GONE
         }
     }
 }
