@@ -2,6 +2,7 @@ package com.example.movieApp.model.getReview
 
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class GetReviewResponse(
     @SerializedName("id")
@@ -14,4 +15,4 @@ data class GetReviewResponse(
     val totalPages: Int?, // 1
     @SerializedName("total_results")
     val totalResults: Int? // 8
-)
+): Serializable

@@ -2,6 +2,7 @@ package com.example.movieApp.model.getMovieDetail
 
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class GetMovieDetailResponse(
     @SerializedName("adult")
@@ -54,4 +55,4 @@ data class GetMovieDetailResponse(
     val voteAverage: Double?, // 6.769
     @SerializedName("vote_count")
     val voteCount: Int? // 1739
-)
+) : Serializable
