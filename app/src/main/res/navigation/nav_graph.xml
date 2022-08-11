@@ -19,10 +19,11 @@
     <fragment
         android:id="@+id/genreFragment"
         android:name="com.example.movieApp.fragment.GenreFragment"
-        android:label="@string/second_fragment_label"
+        android:label="@string/genre_fragment_label"
         tools:layout="@layout/fragment_genre">
         <argument
-            android:name="genreList" app:argType="com.example.movieApp.model.getGenre.GetGenreResponse"/>
+            android:name="genreList"
+            app:argType="com.example.movieApp.model.getGenre.GetGenreResponse" />
         <action
             android:id="@+id/action_genreFragment_to_movieByGenreFragment"
             app:destination="@id/movieByGenreFragment" />
@@ -33,7 +34,10 @@
         android:label="fragment_movie_by_genre"
         tools:layout="@layout/fragment_movie_by_genre">
         <argument
-            android:name="movieList" app:argType="com.example.movieApp.model.getMovieByGenre.GetMovieByGenreResponse"/>
+            android:name="movieList"
+            app:argType="com.example.movieApp.model.getMovieByGenre.GetMovieByGenreResponse" />
+        <argument
+            android:name="genreId"/>
         <action
             android:id="@+id/action_movieByGenreFragment_to_movieDetailFragment"
             app:destination="@id/movieDetailFragment" />
@@ -41,10 +45,16 @@
     <fragment
         android:id="@+id/movieDetailFragment"
         android:name="com.example.movieApp.fragment.MovieDetailFragment"
-        android:label="MovieDetailFragment" >
-        <argument android:name="movieDetail" app:argType="com.example.movieApp.model.getMovieDetail.GetMovieDetailResponse"/>
-        <argument android:name="reviewDetail" app:argType="com.example.movieApp.model.getReview.GetReviewResponse"/>
-        <argument android:name="videos" app:argType="com.example.movieApp.model.getVideos.GetVideosResponse"/>
+        android:label="MovieDetailFragment">
+        <argument
+            android:name="movieDetail"
+            app:argType="com.example.movieApp.model.getMovieDetail.GetMovieDetailResponse" />
+        <argument
+            android:name="reviewDetail"
+            app:argType="com.example.movieApp.model.getReview.GetReviewResponse" />
+        <argument
+            android:name="videos"
+            app:argType="com.example.movieApp.model.getVideos.GetVideosResponse" />
     </fragment>
 
 </navigation>

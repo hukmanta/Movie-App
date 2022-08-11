@@ -15,9 +15,9 @@ object RetrofitBuilder {
     private const val BASE_URL = BuildConfig.SERVER_URL
 
     private val clientBuilder = OkHttpClient.Builder().also {
-        it.connectTimeout(60, TimeUnit.SECONDS)
-        it.writeTimeout(60, TimeUnit.SECONDS)
-        it.readTimeout(60, TimeUnit.SECONDS)
+        it.connectTimeout(15, TimeUnit.SECONDS)
+        it.writeTimeout(15, TimeUnit.SECONDS)
+        it.readTimeout(15, TimeUnit.SECONDS)
     }
 
     private val retrofitBuilder :Retrofit.Builder by lazy{
